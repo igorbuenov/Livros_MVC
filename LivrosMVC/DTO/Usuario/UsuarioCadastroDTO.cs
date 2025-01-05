@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace LivrosMVC.DTO
+namespace LivrosMVC.DTO.Usuario
 {
     public class UsuarioCadastroDTO
     {

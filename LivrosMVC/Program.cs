@@ -1,8 +1,10 @@
 using LivrosMVC.Data;
 using LivrosMVC.Interfaces.Login;
 using LivrosMVC.Interfaces.Senha;
+using LivrosMVC.Interfaces.Sessao;
 using LivrosMVC.Services.Login;
 using LivrosMVC.Services.Senha;
+using LivrosMVC.Services.Sessao;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -19,6 +21,7 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 // Services => Interfaces
 builder.Services.AddScoped<ILoginInterface, LoginService>();
 builder.Services.AddScoped<ISenhaInterface, SenhaService>();
+builder.Services.AddScoped<ISessaoInterface, SessaoService>();
 
 var app = builder.Build();
 

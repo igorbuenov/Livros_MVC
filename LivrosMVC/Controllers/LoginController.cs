@@ -1,4 +1,4 @@
-﻿using LivrosMVC.DTO;
+﻿using LivrosMVC.DTO.Usuario;
 using LivrosMVC.Interfaces.Login;
 using Microsoft.AspNetCore.Mvc;
 
@@ -52,6 +52,12 @@ namespace LivrosMVC.Controllers
             }
 
             
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Login(UsuarioLoginDTO usuarioLoginDTO)
+        {
+            return View();
         }
     }
 }

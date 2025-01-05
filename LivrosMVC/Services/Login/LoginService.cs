@@ -1,5 +1,5 @@
 ﻿using LivrosMVC.Data;
-using LivrosMVC.DTO;
+using LivrosMVC.DTO.Usuario;
 using LivrosMVC.Interfaces.Login;
 using LivrosMVC.Interfaces.Senha;
 using LivrosMVC.Models;
@@ -19,6 +19,44 @@ namespace LivrosMVC.Services.Login
             _senhaInterface = senhaInterface;
         }
 
+        public async Task<ResponseModel<UsuarioModel>> Login(UsuarioLoginDTO usuarioLoginDTO)
+        {
+
+            ResponseModel<UsuarioModel> response = new ResponseModel<UsuarioModel>();
+
+            try
+            {
+
+                var usuario = GetUsuarioByEmail(usuarioLoginDTO.Email);
+                if (usuario == null)
+                {
+                    response.Mensagem = "Credenciais Inválidas!";
+                    response.Status = false;
+                    return response;
+                }
+
+                if(!_senhaInterface.VerificarSenhaAsync(usuarioLoginDTO.Senha, usuario.SenhaHash, usuario.SenhaSalt))
+                {
+                    response.Mensagem = "Credenciais Inválidas!";
+                    response.Status = false;
+                    return response;
+                }
+
+                // Criação de sessão para usuário logado
+
+
+
+                response.Mensagem = "Usuário logado com sucesso!";
+                return response;
+
+            } 
+            catch (Exception ex)
+            {
+                response.Mensagem = ex.Message;
+                response.Status = false;
+                return response;
+            }
+        }
 
         public async Task<ResponseModel<UsuarioModel>> Registrar(UsuarioCadastroDTO usuarioCadastroDTO)
         {
@@ -29,7 +67,7 @@ namespace LivrosMVC.Services.Login
             {
 
                 // Email já cadastrado
-                if (verificarEmailAsync(usuarioCadastroDTO.Email))
+                if (VerificarEmailAsync(usuarioCadastroDTO.Email))
                 {
                     response.Mensagem = "Email já cadastrado!";
                     response.Status = false;
@@ -66,14 +104,18 @@ namespace LivrosMVC.Services.Login
 
         }
 
-
-
-
         // UTILITÁRIOS
-        private bool verificarEmailAsync(string email)
+        private bool VerificarEmailAsync(string email)
         {
             return _context.Usuarios.FirstOrDefault(usuario => usuario.Email == email) != null ? true : false;
         }
+
+        private UsuarioModel GetUsuarioByEmail(string email)
+        {
+            return _context.Usuarios.FirstOrDefault(usuario => usuario.Email == email);
+        }
+
+        
 
 
     }
