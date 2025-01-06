@@ -1,5 +1,6 @@
 ﻿using LivrosMVC.Interfaces.Sessao;
 using LivrosMVC.Models;
+using Newtonsoft.Json;
 
 namespace LivrosMVC.Services.Sessao
 {
@@ -17,17 +18,24 @@ namespace LivrosMVC.Services.Sessao
 
         public UsuarioModel BuscarSessao()
         {
-            throw new NotImplementedException();
+            var sessaoUsuario = _contextAccessor.HttpContext.Session.GetString("sessaoUsuario");
+            if(string.IsNullOrEmpty(sessaoUsuario))
+            {
+                return null;
+            }
+
+            return JsonConvert.DeserializeObject<UsuarioModel>(sessaoUsuario);
         }
 
         public void CriarSessao(UsuarioModel usuarioModel)
         {
-            
+            var usuarioJson = JsonConvert.SerializeObject(usuarioModel);
+            _contextAccessor.HttpContext.Session.SetString("sessaoUsuario", usuarioJson);
         }
 
         public void EncerrarSessao()
         {
-            throw new NotImplementedException();
+            _contextAccessor.HttpContext.Session.Remove("sessaoUsuario");
         }
     }
 }

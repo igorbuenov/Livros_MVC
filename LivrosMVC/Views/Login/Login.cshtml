@@ -1,6 +1,10 @@
 ﻿@using LivrosMVC.DTO.Usuario
 @model UsuarioLoginDTO
 
+@{
+    Layout = "_LayoutDeslogada";
+}
+
 @if (TempData["MensagemSucesso"] != null)
 {
     <div class="alert alert alert-success text-light" role="alert">
@@ -14,6 +18,8 @@
         @TempData["MensagemErro"]
     </div>
 }
+
+<div asp-validation-summary="All" class="text-danger"></div>
 
 <div class="container">
 

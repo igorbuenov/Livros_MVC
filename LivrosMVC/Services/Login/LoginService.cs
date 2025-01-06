@@ -2,6 +2,7 @@
 using LivrosMVC.DTO.Usuario;
 using LivrosMVC.Interfaces.Login;
 using LivrosMVC.Interfaces.Senha;
+using LivrosMVC.Interfaces.Sessao;
 using LivrosMVC.Models;
 using Microsoft.AspNetCore.Mvc;
 
@@ -12,11 +13,13 @@ namespace LivrosMVC.Services.Login
 
         private readonly AppDbContext _context;
         private readonly ISenhaInterface _senhaInterface;
+        private readonly ISessaoInterface _sessaoInterface;
 
-        public LoginService(AppDbContext context, ISenhaInterface senhaInterface)
+        public LoginService(AppDbContext context, ISenhaInterface senhaInterface, ISessaoInterface sessaoInterface)
         {
             _context = context;
             _senhaInterface = senhaInterface;
+            _sessaoInterface = sessaoInterface;
         }
 
         public async Task<ResponseModel<UsuarioModel>> Login(UsuarioLoginDTO usuarioLoginDTO)
@@ -43,7 +46,7 @@ namespace LivrosMVC.Services.Login
                 }
 
                 // Criação de sessão para usuário logado
-
+                _sessaoInterface.CriarSessao(usuario);
 
 
                 response.Mensagem = "Usuário logado com sucesso!";
