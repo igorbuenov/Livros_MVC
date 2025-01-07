@@ -1,7 +1,9 @@
 using LivrosMVC.Data;
+using LivrosMVC.Interfaces.Emprestimos;
 using LivrosMVC.Interfaces.Login;
 using LivrosMVC.Interfaces.Senha;
 using LivrosMVC.Interfaces.Sessao;
+using LivrosMVC.Services.Emprestimos;
 using LivrosMVC.Services.Login;
 using LivrosMVC.Services.Senha;
 using LivrosMVC.Services.Sessao;
@@ -18,9 +20,10 @@ builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
 
-// Services => Interfaces
+// Interfaces => Services
 builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 builder.Services.AddScoped<ILoginInterface, LoginService>();
+builder.Services.AddScoped<IEmprestimosInterface, EmprestimosService>();
 builder.Services.AddScoped<ISenhaInterface, SenhaService>();
 builder.Services.AddScoped<ISessaoInterface, SessaoService>();
 

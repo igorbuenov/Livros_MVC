@@ -13,7 +13,7 @@ namespace LivrosMVC.Models
         public string Fornecedor { get; set; }
         [Required(ErrorMessage = "Digite o nome do livro!")]
         public string LivroEmprestado{ get; set; }
-        public DateTime DataEmprestimo { get; set; }
+        public DateTime DataEmprestimo { get; set; } = DateTime.Now;
 
 
     }
